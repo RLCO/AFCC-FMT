@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <report
+            id="action_afcc_invoice_report"
+            model="account.move"
+            string="AFCC Invoice"
+            report_type="qweb-pdf"
+            name="afcc_invoice.afcc_report_invoice"
+            file="afcc_invoice.afcc_report_invoice"
+            />
+
+    <template id="afcc_report_invoice">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <br/>
+<!--                <t t-if="date_from and date_to">-->
+<!--                    <p class="text-center">Sale order report from date <span t-esc="date_from"/> <span> to date</span> <span t-esc="date_to"/></p>-->
+<!--                </t>-->
+<!--                <t>-->
+<!--                    <p><span>Customer Name : </span><span t-esc="docs.partner_id.name"/></p>-->
+<!--                    <p><span>Address : </span><span t-esc="docs.partner_id.street"/>,-->
+<!--                        <span t-esc="docs.partner_id.city"/>,-->
+<!--                        <span t-esc="docs.partner_id.state_id.name"/>,-->
+<!--                        <span t-esc="docs.partner_id.country_id.name"/>-->
+<!--                    </p>-->
+               <div class="container-fluid" >
+                  <div style="width:100%;" class="row">
+                    <div class="col-auto" style="width:100%;text-align:left;line-height: 0.5 !important;">
+                        <h3 t-if="docs.name" style="color:black;">
+                            Invoice Number : <span t-esc="docs.name"/>
+                        </h3>
+                    </div>
+                  </div>
+               </div>
+
+                <div class="container-fluid" >
+                    <div style="width:100%;" class="row">
+                        <div t-if="docs.partner_id" class="col-auto" style="width:35%;text-align:center;">
+                            <span style="font-size:17px;color:black;padding-right:5px;">Customer Name</span>
+                            <p class="text-center" t-field="docs.partner_id.name"/>
+                        </div>
+                        <div t-if="docs.partner_id.street" class="col-auto" style="width:30%;text-align:center;">
+                            <span style="font-size:17px;color:black;padding-right:5px;">Address</span>
+                            <p class="text-center">
+                                <span t-field="docs.partner_id.street" />
+                                <span t-field="docs.partner_id.city" />
+                                <span t-field="docs.partner_id.state_id.name" />
+                                <span t-field="docs.partner_id.country_id.name" />
+                            </p>
+                        </div>
+                        <div t-if="docs.invoice_date" class="col-auto" style="width:35%;text-align:center;">
+                            <span style="font-size:17px;color:black;padding-right:5px;">Date</span>
+                            <p class="text-center" t-field="docs.invoice_date"/>
+                        </div>
+                    </div>
+                 </div>
+<!--                </t>-->
+<!--                <span t-esc="docs.get_sale_orders()"/>-->
+<!--               x1 <span t-esc="x1"/>-->
+<!--               x3 <span t-esc="x3"/>-->
+<!--                x5<span t-esc="x5"/>-->
+<!--                x6<span t-esc="x6"/>-->
+<!--                <t t-foreach="docs.get_sale_orders()"/>-->
+<!--                    <span t-esc="docs.get_sale_orders()['x1']"/>-->
+<!--                    <span t-esc="docs.get_sale_orders()['x3']"/>-->
+<!--                </t>-->
+                <div class="page">
+                    <table class="table table-condensed">
+                        <thead>
+                            <tr>
+                                <th>Vehicle Type</th>
+                                <th>Vehicle No.</th>
+                                <th>Policy No.</th>
+                                <th>Waybill</th>
+                                <th>From / Date</th>
+                                <th>To / Date</th>
+                                <th t-if="docs.get_sale_orders()['x1']">Transportation Charge</th>
+                                <th t-if="docs.get_sale_orders()['x2']">Delay Charge</th>
+                                <th t-if="docs.get_sale_orders()['x3']">Extra Customer</th>
+                                <th t-if="docs.get_sale_orders()['x4']">Return Shipment</th>
+                                <th t-if="docs.get_sale_orders()['x5']">Transfer to other Location</th>
+                                <th t-if="docs.get_sale_orders()['x6']">Labour Charge</th>
+                                <th t-if="docs.get_sale_orders()['x7']">Other Charge</th>
+                                <th>Total before Vat</th>
+                                <th>Tax</th>
+<!--                                <th>Quotation Number</th>-->
+<!--                                <th class="text-left">Order Date</th>-->
+<!--                                <th class="text-left">Customer</th>-->
+<!--                                <th class="text-left">P1</th>-->
+<!--                                <th class="text-left">P2</th>-->
+<!--                                <th class="text-right">Total</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="docs.get_sale_orders()['sale_orders']" t-as="order">
+                                <td>
+                                    <span t-esc="order['vehicle_type']" />
+                                </td>
+                                <td>
+                                    <span t-esc="order['vehicle_no']" />
+                                </td>
+                                <td>
+                                    <span t-esc="order['policy_no']" />
+                                </td>
+                                <td>
+                                    <span t-esc="order['Waybill']" />
+                                </td>
+                                <td>
+                                    <span t-esc="order['from_date']" />
+                                    <span t-esc="order['from']" />
+                                </td>
+                                <td>
+                                    <span t-esc="order['to_date']" />
+                                    <span t-esc="order['to']" />
+                                </td>
+                                <td t-if="docs.get_sale_orders()['x1']">
+                                    <span t-esc="order['p1']" />
+                                </td>
+                                <td t-if="docs.get_sale_orders()['x2']">
+                                    <span t-esc="order['p2']" />
+                                </td>
+                                <td t-if="docs.get_sale_orders()['x3']">
+                                    <span t-esc="order['p3']" />
+                                </td>
+                                <td t-if="docs.get_sale_orders()['x4']">
+                                    <span t-esc="order['p4']" />
+                                </td>
+                                <td t-if="docs.get_sale_orders()['x5']">
+                                    <span t-esc="order['p5']" />
+                                </td>
+                                <td t-if="docs.get_sale_orders()['x6']">
+                                    <span t-esc="order['p6']" />
+                                </td>
+                                <td t-if="docs.get_sale_orders()['x7']">
+                                    <span t-esc="order['p7']" />
+                                </td>
+                                <td>
+                                    <span t-esc="order['total']" />
+                                </td>
+                                <td>
+                                    <span t-esc="order['tax_id']" />
+                                </td>
+
+<!--                                <td>-->
+<!--                                    <span t-esc="order['name']" />-->
+<!--                                </td>-->
+<!--                                <td class="text-left" style="white-space: text-nowrap;">-->
+<!--                                    <span t-esc="order['date_order']" />-->
+<!--                                </td>-->
+<!--                                <td class="text-left" style="white-space: text-nowrap;">-->
+<!--                                    <span t-esc="order['partner']" />-->
+<!--                                </td>-->
+<!--                                <td class="text-left" style="white-space: text-nowrap;">-->
+<!--                                    <span t-esc="order['p1']" />-->
+<!--                                </td>-->
+<!--                                <td class="text-left" style="white-space: text-nowrap;">-->
+<!--                                    <span t-esc="order['p2']" />-->
+<!--                                </td>-->
+<!--                                <td class="text-right" style="white-space: text-nowrap;">-->
+<!--                                    <span  t-esc="order['amount_total']"  />-->
+<!--                                </td>-->
+                            </tr>
+
+<!--                            <tr>-->
+<!--                                <td></td>-->
+<!--                                <td></td>-->
+<!--                                <td class="text-right"><b>Total</b></td>-->
+<!--                                <td class="text-right" style="white-space: text-nowrap;">-->
+<!--                                    <b><span t-esc="total_sale" /></b>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,30 @@
+<odoo>
+<data>
+
+    <template id="report_sale_order_document_inherit" inherit_id="sale.report_saleorder_document">
+
+           <xpath expr="//div[hasclass('mt32')]" position="replace">
+               <div class="container-fluid" >
+                  <div style="width:100%;" class="row">
+                    <div class="col-auto" style="width:50%;text-align:left;">
+                      <p t-if="docs.from_id"><span style="color:black;">From:</span> <span t-esc="docs.from_id.name"/></p>
+                      <p t-if="docs.departure_time"><span style="color:black;">Departure Date:</span> <span t-esc="docs.departure_time"/></p>
+                      <p t-if="docs.vehicle_no"><span style="color:black;">Vehicle no:</span><span t-esc="docs.vehicle_no"/></p>
+                      <p t-if="docs.driver_id"><span style="color:black;">Driver:</span><span t-esc="docs.driver_id.name"/></p>
+                      <p t-if="docs.policy_no"><span style="color:black;">Policy No:</span><span t-esc="docs.policy_no"/></p>
+                    </div>
+                    <div class="col-auto" style="width:50%;text-align:left;">
+                      <p t-if="docs.to_id"><span style="color:black;">To:</span><span t-esc="docs.to_id.name"/></p>
+                      <p t-if="docs.arrival_time"><span style="color:black;">Arrival Date:</span><span t-esc="docs.arrival_time"/></p>
+                      <p t-if="docs.vehicle_type_id"><span style="color:black;">Vehicle Type:</span><span t-esc="docs.vehicle_type_id.name"/></p>
+                      <p t-if="docs.Waybill"><span style="color:black;">Waybill:</span><span t-esc="docs.Waybill"/></p>
+                    </div>
+                  </div>
+               </div>
+
+           </xpath>
+
+    </template>
+
+</data>
+</odoo>

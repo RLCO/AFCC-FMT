@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from odoo import models, fields, api,_
-# from odoo.exceptions import UserError
+from odoo.exceptions import UserError
 
 
 class AccountMove(models.Model):
@@ -39,6 +39,19 @@ class SaleOrder(models.Model):
     total_cost = fields.Float(compute="get_total_transportation_cost", store=True)
     profit = fields.Float(compute="get_profit_transportation_cost")
     transportation_cost_ids = fields.One2many('transportation.cost.line', 'transportation_cost_id', string='Transfers')
+
+    @api.constrains('arrival_time')
+    def constrain_arrival_time(self):
+        for record in self:
+            if record.arrival_time and record.departure_time:
+                if record.arrival_time < record.departure_time:
+                    raise UserError(_("Arrival Time Must Be Greater Than Departure Time"))
+
+    @api.onchange('vehicle_id')
+    def onchange_vehicle_id(self):
+        for record in self:
+            record.vehicle_type_id = record.vehicle_id.model_id
+            record.vehicle_no = record.vehicle_id.license_plate
 
     @api.depends('transportation_cost_ids')
     def get_total_transportation_cost(self):
@@ -115,44 +128,3 @@ class TransportationCostLine(models.Model):
     product_id = fields.Many2one("product.product")
     account_id = fields.Many2one("account.account")
     amount = fields.Float()
-
-
-    # def action_view_transportation(self):
-    #     transportation_id = self.env['transportation.operation']
-    #     transportation_obj = transportation_id.search([('sale_id', '=', self.id)])
-    #     if transportation_obj:
-    #         return {
-    #             'type': 'ir.actions.act_window',
-    #             'name': 'Transportation',
-    #             'res_model': 'transportation.operation',
-    #             'res_id': transportation_obj.id,
-    #             'view_type': 'form',
-    #             'view_mode': 'form',
-    #             'target': 'current',
-    #         }
-    #     else:
-    #         transportation_obj = transportation_id.create({
-    #                 'sale_id': self.id,
-    #                 'from_id': self.from_id.id,
-    #                 'to_id': self.to_id.id,
-    #                 'departure_time': self.departure_time,
-    #                 'arrival_time': self.arrival_time,
-    #             })
-    #         for record in self.order_line:
-    #             res = {
-    #                     'transportation_product_id': transportation_obj.id,
-    #                     'product_id': record.product_id.id,
-    #                     'quantity': record.product_uom_qty,
-    #                 }
-    #             transportation_obj.update({
-    #                 'product_ids': [(0, 0, res)],
-    #             })
-    #         return {
-    #             'type': 'ir.actions.act_window',
-    #             'name': 'Transportation',
-    #             'res_model': 'transportation.operation',
-    #             'res_id': transportation_obj.id,
-    #             'view_type': 'form',
-    #             'view_mode': 'form',
-    #             'target': 'current',
-    #         }

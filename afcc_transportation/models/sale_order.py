@@ -33,7 +33,7 @@ class SaleOrder(models.Model):
     total_cost = fields.Float(compute="get_total_transportation_cost", store=True)
     profit = fields.Float(compute="get_profit_transportation_cost")
     transportation_cost_ids = fields.One2many('transportation.cost.line', 'transportation_cost_id', string='Transfers')
-    is_journal = fields.Boolean()
+    # is_journal = fields.Boolean()
 
     @api.constrains('arrival_time')
     def constrain_arrival_time(self):
@@ -109,7 +109,7 @@ class SaleOrder(models.Model):
                     'debit': 0.0,
                     'credit': rec['credit1'],
                 })
-            self.is_journal=True
+            # self.is_journal=True
 
 
 class TransportationCostLine(models.Model):

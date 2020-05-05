@@ -18,7 +18,7 @@
                   <div style="width:100%;" class="row">
                     <div class="col-auto" style="width:100%;text-align:left;line-height: 0.5 !important;">
                         <h3 t-if="docs.name" style="color:black;">
-                            Invoice Number رقم الفاتوره: <span t-esc="docs.name"/>
+                            <span t-esc="docs.name"/>
                         </h3>
                     </div>
                   </div>
@@ -73,51 +73,51 @@
                         </thead>
                         <tbody>
                             <tr t-foreach="docs.get_sale_orders()['sale_orders']" t-as="order">
-                                <td>
+                                <td style="border:1px solid black;">
                                     <span t-esc="order['vehicle_type']" />
                                 </td>
-                                <td>
+                                <td style="border:1px solid black;">
                                     <span t-esc="order['vehicle_no']" />
                                 </td>
-                                <td>
+                                <td style="border:1px solid black;">
                                     <span t-esc="order['policy_no']" />
                                 </td>
-                                <td>
+                                <td style="border:1px solid black;">
                                     <span t-esc="order['Waybill']" />
                                 </td>
-                                <td>
+                                <td style="border:1px solid black;">
                                     <span t-esc="order['from_date']" />
                                     <span t-esc="order['from']" />
                                 </td>
-                                <td>
+                                <td style="border:1px solid black;">
                                     <span t-esc="order['to_date']" />
                                     <span t-esc="order['to']" />
                                 </td>
-                                <td t-if="docs.get_sale_orders()['x1']">
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x1']">
                                     <span t-esc="order['p1']" />
                                 </td>
-                                <td t-if="docs.get_sale_orders()['x2']">
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x2']">
                                     <span t-esc="order['p2']" />
                                 </td>
-                                <td t-if="docs.get_sale_orders()['x3']">
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x3']">
                                     <span t-esc="order['p3']" />
                                 </td>
-                                <td t-if="docs.get_sale_orders()['x4']">
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x4']">
                                     <span t-esc="order['p4']" />
                                 </td>
-                                <td t-if="docs.get_sale_orders()['x5']">
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x5']">
                                     <span t-esc="order['p5']" />
                                 </td>
-                                <td t-if="docs.get_sale_orders()['x6']">
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x6']">
                                     <span t-esc="order['p6']" />
                                 </td>
-                                <td t-if="docs.get_sale_orders()['x7']">
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x7']">
                                     <span t-esc="order['p7']" />
                                 </td>
-                                <td>
+                                <td style="border:1px solid black;">
                                     <span t-esc="order['total']" />
                                 </td>
-                                <td style="background:white;">
+                                <td style="border:1px solid black;background:white;">
                                     <span t-esc="order['tax_id']" />
                                 </td>
                             </tr>

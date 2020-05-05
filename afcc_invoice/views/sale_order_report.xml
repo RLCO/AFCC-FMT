@@ -1,18 +1,18 @@
 <odoo>
 <data>
 
-<!--        <record id="res_partner_form_inherit3" model="ir.ui.view">-->
-<!--            <field name="name">res.partner</field>-->
-<!--            <field name="model">res.partner</field>-->
-<!--            <field name="inherit_id" ref="base.view_partner_form"/>-->
-<!--            <field name="arch" type="xml">-->
+        <record id="res_partner_form_inherit3" model="ir.ui.view">
+            <field name="name">res.partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
 
-<!--                <xpath expr="//field[@name='name']" position="after">-->
-<!--                    <field name="arabic_name" placeholder="Arabic Name....."/>-->
-<!--                </xpath>-->
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="arabic_name" placeholder="Arabic Name....."/>
+                </xpath>
 
-<!--            </field>-->
-<!--        </record>-->
+            </field>
+        </record>
 
 <!--    <template id="external_layout_header2" inherit_id="account.report_invoice_document">-->
 <!--        <xpath expr="//div[hasclass('page')]//h2" position="after">-->

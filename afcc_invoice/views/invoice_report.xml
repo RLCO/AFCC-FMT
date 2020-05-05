@@ -99,8 +99,7 @@
                             </div>
 
                             <div class="col-auto" style="width:50%;text-align:right;">
-                              <p class="oe_inline" style="line-height: .8 !important;" t-if="o.partner_id.name"><span style="color:black;">اسم العميل</span>:</p>
-<!--                                <span t-esc="o.partner_id.arabic_name"/>-->
+                              <p class="oe_inline" style="line-height: .8 !important;" t-if="o.partner_id.name"><span style="color:black;">اسم العميل</span>:<span t-esc="o.partner_id.arabic_name"/></p>
                               <p style="line-height: .8 !important;" t-if="o.partner_id.street2"><span style="color:black;">عنوان العميل</span>:<span t-esc="o.partner_id.street2"/></p>
                               <p style="line-height: .8 !important;" t-if="o.partner_id.vat"><span t-esc="o.partner_id.vat"/><span style="color:black;">:الرقم الضريبي للعميل</span></p>
 <!--                              <p style="line-height: auto !important;" t-if="o.landing_place.name"><span style="color:black;">الميناء</span>:<span t-esc="o.landing_place.arabic_name"/></p>-->

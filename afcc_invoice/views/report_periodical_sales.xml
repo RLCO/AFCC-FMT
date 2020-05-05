@@ -18,7 +18,7 @@
                   <div style="width:100%;" class="row">
                     <div class="col-auto" style="width:100%;text-align:left;line-height: 0.5 !important;">
                         <h3 t-if="docs.name" style="color:black;">
-                            Invoice Number : <span t-esc="docs.name"/>
+                            Invoice Number رقم الفاتوره: <span t-esc="docs.name"/>
                         </h3>
                     </div>
                   </div>
@@ -27,15 +27,15 @@
                 <div class="container-fluid" >
                     <div style="width:100%;" class="row">
                         <div t-if="docs.partner_id" class="col-auto" style="width:30%;text-align:center;">
-                            <span style="font-size:17px;color:black;padding-right:5px;">Customer Name</span>
+                            <span style="font-size:17px;color:black;padding-right:5px;">Customer Name اسم العميل</span>
                             <p class="text-center" t-field="docs.partner_id.name"/>
                         </div>
                         <div t-if="docs.partner_id.vat" class="col-auto" style="width:auto;text-align:center;">
-                            <span style="font-size:17px;color:black;padding-right:5px;">TAX ID</span>
+                            <span style="font-size:17px;color:black;padding-right:5px;">TAX ID الرقم الضريبي</span>
                             <p class="text-center" t-field="docs.partner_id.vat"/>
                         </div>
                         <div t-if="docs.partner_id.street" class="col-auto" style="width:30%;text-align:center;">
-                            <span style="font-size:17px;color:black;padding-right:5px;">Address</span>
+                            <span style="font-size:17px;color:black;padding-right:5px;">Address العنوان</span>
                             <p class="text-center">
                                 <span t-field="docs.partner_id.street" />
                                 <span t-field="docs.partner_id.city" />
@@ -44,31 +44,31 @@
                             </p>
                         </div>
                         <div t-if="docs.invoice_date" class="col-auto" style="width:auto;text-align:center;">
-                            <span style="font-size:17px;color:black;padding-right:5px;">Date</span>
+                            <span style="font-size:17px;color:black;padding-right:5px;">Date التاريخ</span>
                             <p class="text-center" t-field="docs.invoice_date"/>
                         </div>
                     </div>
                  </div>
 
                 <div class="page">
-                    <table class="table table-condensed">
+                    <table class="table" style="width:100%">
                         <thead>
-                            <tr>
-                                <th>Vehicle Type</th>
-                                <th>Vehicle No.</th>
-                                <th>Policy No.</th>
-                                <th>Waybill</th>
-                                <th>From / Date</th>
-                                <th>To / Date</th>
-                                <th t-if="docs.get_sale_orders()['x1']">Transportation Charge</th>
-                                <th t-if="docs.get_sale_orders()['x2']">Delay Charge</th>
-                                <th t-if="docs.get_sale_orders()['x3']">Extra Customer</th>
-                                <th t-if="docs.get_sale_orders()['x4']">Return Shipment</th>
-                                <th t-if="docs.get_sale_orders()['x5']">Transfer to other Location</th>
-                                <th t-if="docs.get_sale_orders()['x6']">Labour Charge</th>
-                                <th t-if="docs.get_sale_orders()['x7']">Other Charge</th>
-                                <th>Total before TAX</th>
-                                <th>Tax</th>
+                            <tr style="border:1px solid black;">
+                                <td style="border:1px solid black;">Vehicle Type نوع السباره</td>
+                                <td style="border:1px solid black;">Vehicle No. رقم السياره</td>
+                                <td style="border:1px solid black;">Policy No. رقم عقد الشحن</td>
+                                <td style="border:1px solid black;">Waybill رقم بوليصة الشحن</td>
+                                <td style="border:1px solid black;">From/Date من/تاريخ</td>
+                                <td style="border:1px solid black;">To/Date الي/تاريخ</td>
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x1']">Trans. Charge رسوم نقل</td>
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x2']">Delay Charge رسوم تاخير</td>
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x3']">Extra Customer عميل اضافي</td>
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x4']">Return Shipment إعادة الشحنة</td>
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x5']">Transfer to other Location نقل إلى موقع آخر</td>
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x6']">Labour Charge رسوم العمل</td>
+                                <td style="border:1px solid black;" t-if="docs.get_sale_orders()['x7']">Other Charge رسوم اخري</td>
+                                <td style="border:1px solid black;">Total before TAX الاجمالي قبل الضريبه</td>
+                                <td style="border:0px solid black;background:white;">Tax ضريبه<span>القيمه المضافه</span></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -117,7 +117,7 @@
                                 <td>
                                     <span t-esc="order['total']" />
                                 </td>
-                                <td>
+                                <td style="background:white;">
                                     <span t-esc="order['tax_id']" />
                                 </td>
                             </tr>
@@ -163,8 +163,8 @@
 <!--                                    <span style="font-size:13px;" t-esc="docs.company_id.bank_ids" />-->
                             <div class="row" t-if="docs.company_id.partner_id.bank_ids">
                                 <tr  t-foreach="docs.company_id.bank_ids[0]" t-as="ba">
-                                    <td><span>Account No: </span><span t-field="ba.acc_number"/></td><br/>
-                                    <td><span>Bank: </span><span t-field="ba.bank_id.name"/></td>
+                                    <td><span>Account No رقم الحساب: </span><span t-field="ba.acc_number"/></td><br/>
+                                    <td><span>Bank البنك: </span><span t-field="ba.bank_id.name"/></td>
 <!--                                    <dd><span t-field="ba.bank_id.name"/></dd>-->
 <!--                                    <dt>IBAN No./:</dt>-->
 <!--                                    <dd><span t-field="ba.acc_number"/></dd>-->

@@ -16,17 +16,11 @@ class HrEmployee(models.Model):
     is_driver = fields.Boolean('Driver')
 
 
-# class FleetVehicle(models.Model):
-#     _inherit = "fleet.vehicle"
-#
-#     vehicle_type = fields.Selection([('Vehicle', 'Vehicle'), ('Trailer', 'Trailer')], 'Type')
-
-
 class SaleOrder(models.Model):
     _inherit = "sale.order"
 
-    from_id = fields.Many2one("res.partner")
-    to_id = fields.Many2one("res.partner")
+    from_id = fields.Many2one("sale.location")
+    to_id = fields.Many2one("sale.location")
     departure_time = fields.Datetime()
     arrival_time = fields.Datetime()
     vehicle_id = fields.Many2one("fleet.vehicle")
@@ -39,6 +33,7 @@ class SaleOrder(models.Model):
     total_cost = fields.Float(compute="get_total_transportation_cost", store=True)
     profit = fields.Float(compute="get_profit_transportation_cost")
     transportation_cost_ids = fields.One2many('transportation.cost.line', 'transportation_cost_id', string='Transfers')
+    is_journal = fields.Boolean()
 
     @api.constrains('arrival_time')
     def constrain_arrival_time(self):
@@ -85,7 +80,7 @@ class SaleOrder(models.Model):
                     'name': line.description,
                     'debit': line.amount,
                     'credit': 0.0,
-                    'account_id1': line.vendor_id.property_account_receivable_id.id,
+                    'account_id1': line.journal_id.default_credit_account_id.id,
                     'name1': line.description,
                     'debit1': 0.0,
                     'credit1': line.amount,
@@ -114,17 +109,25 @@ class SaleOrder(models.Model):
                     'debit': 0.0,
                     'credit': rec['credit1'],
                 })
+            self.is_journal=True
 
 
 class TransportationCostLine(models.Model):
     _name = "transportation.cost.line"
 
     transportation_cost_id = fields.Many2one("sale.order")
-    vendor_id = fields.Many2one("res.partner")
+    # vendor_id = fields.Many2one("res.partner")
     journal_id = fields.Many2one("account.journal")
     description = fields.Char()
-    vehicle_id = fields.Many2one("fleet.vehicle")
-    employee_id = fields.Many2one("hr.employee")
+    # vehicle_id = fields.Many2one("fleet.vehicle")
+    # employee_id = fields.Many2one("hr.employee")
     product_id = fields.Many2one("product.product")
     account_id = fields.Many2one("account.account")
     amount = fields.Float()
+
+
+class SaleLocation(models.Model):
+    _name = "sale.location"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+
+    name = fields.Char()

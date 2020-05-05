@@ -11,8 +11,9 @@
                             string="Operation Cost Journals"
                             type="object"
                             class="oe_stat_button"
-                            icon="fa-truck"
+                            icon="fa-bars"
                     >
+<!--                        icon="fa-globe icon"-->
                     </button>
 <!--                            states="sale"-->
                 </xpath>
@@ -32,20 +33,21 @@
                         <field name="driver_id" domain="[('is_driver','=',True)]"/>
                         <field name="policy_no" />
                         <field name="Waybill" />
+                        <field name="is_journal" invisible="1"/>
                     </group>
                 </xpath>
 
                 <xpath expr="//notebook" position="inside">
                     <page string="Operation Cost &amp; Profit">
-                        <field name="transportation_cost_ids">
+                        <field name="transportation_cost_ids" attrs="{'readonly':[('is_journal','=',True)]}">
                             <tree editable="bottom">
                                 <field name="product_id" required="1"/>
                                 <field name="description" />
-                                <field name="vendor_id" required="1"/>
-                                <field name="vehicle_id" />
-                                <field name="employee_id" />
-                                <field name="journal_id" required="1"/>
-                                <field name="account_id" required="1"/>
+<!--                                <field name="vendor_id" required="1"/>-->
+<!--                                <field name="vehicle_id" />-->
+<!--                                <field name="employee_id" />-->
+                                <field name="journal_id" domain="[('type','in',['bank','cash'])]" required="1"/>
+                                <field name="account_id" domain="[('internal_group','=','expense')]" required="1"/>
                                 <field name="amount" required="1"/>
                             </tree>
                         </field>
@@ -94,6 +96,50 @@
                     </xpath>
             </field>
         </record>
+
+        <record id="sale_location_form" model="ir.ui.view">
+            <field name="name">sale.location</field>
+            <field name="model">sale.location</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                       <group>
+                            <field name="name" required = "1"/>
+                       </group>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="sale_location_tree" model="ir.ui.view">
+            <field name="name">sale.location</field>
+            <field name="model">sale.location</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name" />
+                </tree>
+            </field>
+        </record>
+
+        <record id="sale_location_action" model="ir.actions.act_window">
+            <field name="name">Locations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.location</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="sale_location_menu_action"
+                  name="Locations"
+                  action="sale_location_action"
+                  parent="sale.sale_menu_root"
+                  sequence="4"
+                  />
+
 
     </data>
 </odoo>

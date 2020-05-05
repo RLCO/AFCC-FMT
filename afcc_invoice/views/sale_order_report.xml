@@ -1,30 +1,89 @@
 <odoo>
 <data>
 
-    <template id="report_sale_order_document_inherit" inherit_id="sale.report_saleorder_document">
+        <record id="res_partner_form_inherit3" model="ir.ui.view">
+            <field name="name">res.partner</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
 
-           <xpath expr="//div[hasclass('mt32')]" position="replace">
-               <div class="container-fluid" >
-                  <div style="width:100%;" class="row">
-                    <div class="col-auto" style="width:50%;text-align:left;">
-                      <p t-if="docs.from_id"><span style="color:black;">From:</span> <span t-esc="docs.from_id.name"/></p>
-                      <p t-if="docs.departure_time"><span style="color:black;">Departure Date:</span> <span t-esc="docs.departure_time"/></p>
-                      <p t-if="docs.vehicle_no"><span style="color:black;">Vehicle no:</span><span t-esc="docs.vehicle_no"/></p>
-                      <p t-if="docs.driver_id"><span style="color:black;">Driver:</span><span t-esc="docs.driver_id.name"/></p>
-                      <p t-if="docs.policy_no"><span style="color:black;">Policy No:</span><span t-esc="docs.policy_no"/></p>
-                    </div>
-                    <div class="col-auto" style="width:50%;text-align:left;">
-                      <p t-if="docs.to_id"><span style="color:black;">To:</span><span t-esc="docs.to_id.name"/></p>
-                      <p t-if="docs.arrival_time"><span style="color:black;">Arrival Date:</span><span t-esc="docs.arrival_time"/></p>
-                      <p t-if="docs.vehicle_type_id"><span style="color:black;">Vehicle Type:</span><span t-esc="docs.vehicle_type_id.name"/></p>
-                      <p t-if="docs.Waybill"><span style="color:black;">Waybill:</span><span t-esc="docs.Waybill"/></p>
-                    </div>
-                  </div>
-               </div>
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="arabic_name" placeholder="Arabic Name....."/>
+                </xpath>
 
-           </xpath>
+            </field>
+        </record>
 
-    </template>
+<!--    <template id="external_layout_header2" inherit_id="account.report_invoice_document">-->
+<!--        <xpath expr="//div[hasclass('page')]//h2" position="after">-->
+<!--            <div class="container-fluid" style="margin-left:-12px;">-->
+<!--              <div style="width:100%;" class="row">-->
+<!--                <div class="col-auto" style="width:50%;text-align:left;">-->
+<!--                  <p t-if="o.get_sale_order_data()['from']">-->
+<!--                      <span style="color:black;">From: </span> <span t-esc="o.get_sale_order_data()['from']"/>-->
+<!--                  </p>-->
+<!--                  <p t-if="o.get_sale_order_data()['departure']">-->
+<!--                      <span style="color:black;">Departure Date: </span> <span t-esc="o.get_sale_order_data()['departure']"/>-->
+<!--                  </p>-->
+<!--                  <p t-if="o.get_sale_order_data()['driver']">-->
+<!--                      <span style="color:black;">Driver: </span><span t-esc="o.get_sale_order_data()['driver']"/>-->
+<!--                  </p>-->
+<!--                  <p t-if="o.get_sale_order_data()['policy_no']">-->
+<!--                      <span style="color:black;">Policy No: </span><span t-esc="o.get_sale_order_data()['policy_no']"/>-->
+<!--                  </p>-->
+<!--                  <p t-if="o.get_sale_order_data()['vehicle']">-->
+<!--                      <span style="color:black;">Vehicle: </span><span t-esc="o.get_sale_order_data()['vehicle']"/>-->
+<!--                  </p>-->
+<!--                  <p t-if="o.get_sale_order_data()['vehicle_no']">-->
+<!--                      <span style="color:black;">Vehicle No: </span><span t-esc="o.get_sale_order_data()['vehicle_no']"/>-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--                <div class="col-auto" style="width:50%;text-align:left;">-->
+<!--                  <p t-if="o.get_sale_order_data()['to']">-->
+<!--                      <span style="color:black;">To: </span><span t-esc="o.get_sale_order_data()['to']"/>-->
+<!--                  </p>-->
+<!--                  <p t-if="o.get_sale_order_data()['arrival']">-->
+<!--                      <span style="color:black;">Arrival Date: </span><span t-esc="o.get_sale_order_data()['arrival']"/>-->
+<!--                  </p>-->
+<!--                  <p t-if="o.get_sale_order_data()['helper']">-->
+<!--                      <span style="color:black;">Helper: </span><span t-esc="o.get_sale_order_data()['helper']"/>-->
+<!--                  </p>-->
+<!--                  <p t-if="o.get_sale_order_data()['waybill']">-->
+<!--                      <span style="color:black;">Waybill: </span><span t-esc="o.get_sale_order_data()['waybill']"/>-->
+<!--                  </p>-->
+<!--                  <p t-if="o.get_sale_order_data()['vehicle_type']">-->
+<!--                      <span style="color:black;">Vehicle Type: </span><span t-esc="o.get_sale_order_data()['vehicle_type']"/>-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--           </div>-->
+<!--        </xpath>-->
+<!--    </template>-->
+
+<!--    <template id="report_sale_order_document_inherit" inherit_id="sale.report_saleorder_document">-->
+
+<!--           <xpath expr="//div[hasclass('mt32')]" position="replace">-->
+<!--               <div class="container-fluid" >-->
+<!--                  <div style="width:100%;" class="row">-->
+<!--                    <div class="col-auto" style="width:50%;text-align:left;">-->
+<!--                      <p t-if="docs.from_id"><span style="color:black;">From:</span> <span t-esc="docs.from_id.name"/></p>-->
+<!--                      <p t-if="docs.departure_time"><span style="color:black;">Departure Date:</span> <span t-esc="docs.departure_time"/></p>-->
+<!--                      <p t-if="docs.vehicle_no"><span style="color:black;">Vehicle no:</span><span t-esc="docs.vehicle_no"/></p>-->
+<!--                      <p t-if="docs.driver_id"><span style="color:black;">Driver:</span><span t-esc="docs.driver_id.name"/></p>-->
+<!--                      <p t-if="docs.policy_no"><span style="color:black;">Policy No:</span><span t-esc="docs.policy_no"/></p>-->
+<!--                    </div>-->
+<!--                    <div class="col-auto" style="width:50%;text-align:left;">-->
+<!--                      <p t-if="docs.to_id"><span style="color:black;">To:</span><span t-esc="docs.to_id.name"/></p>-->
+<!--                      <p t-if="docs.arrival_time"><span style="color:black;">Arrival Date:</span><span t-esc="docs.arrival_time"/></p>-->
+<!--                      <p t-if="docs.vehicle_type_id"><span style="color:black;">Vehicle Type:</span><span t-esc="docs.vehicle_type_id.name"/></p>-->
+<!--                      <p t-if="docs.Waybill"><span style="color:black;">Waybill:</span><span t-esc="docs.Waybill"/></p>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--               </div>-->
+
+<!--           </xpath>-->
+
+<!--    </template>-->
 
 </data>
 </odoo>

@@ -1,0 +1,451 @@
+<odoo>
+<data>
+
+    <template id="external_layout_header2" inherit_id="account.report_invoice_document">
+           <xpath expr="//table//thead/tr" position="replace">
+               <tr class="text-center" style="background:#eeeded;color:black;">
+                <td style="text-align:left;border: 1px solid #000000 !important;border-bottom: 0px solid #000000 !important;padding:5px 0 !important;width:40% !important;">
+                   <span style="margin-left:7px !important;font-size:13px;">Description</span>
+                        <span style="font-size:13px;">الوصف</span>
+
+                </td>
+                <td style="border: 1px solid #000000 !important;padding:5px 0 !important;width:10% !important;">
+                        <span style="font-size:13px;">Amount</span>
+                        <span style="font-size:13px;">المبلغ</span>
+                </td>
+                <td style="border: 1px solid #000000 !important;padding:5px 0 !important;width:10% !important;">
+                   <span style="font-size:13px;">Quantity</span><span style="font-size:13px;">العدد</span>
+                </td>
+                <td style="border: 1px solid #000000 !important;padding:5px 0 !important;width:15% !important;">
+                    <span style="font-size:13px;">VAT 5%</span><span style="font-size:13px;">الضريبه</span>
+                </td>
+                <td style="border: 1px solid #000000 !important;padding:5px 0 !important;width:25% !important;">
+                    <span style="font-size:13px;">Total</span><span style="font-size:13px;">الاجمالي</span>
+                </td>
+               </tr>
+           </xpath>
+
+           <xpath expr="//table//tbody" position="replace">
+                <tbody class="invoice_tbody">
+                    <t t-set="current_subtotal" t-value="0"/>
+                        <t t-foreach="o.invoice_line_ids" t-as="line">
+                                <tr class="text-center">
+                                    <td style="text-align:left;border: 1px solid #000000 !important;padding:5px 0 0 5px!important;width:40% !important;">
+                                        <span style="font-size:13px;" t-field="line.name"/>
+<!--                                        <span style="font-size:13px;" t-field="line.product_id.arabic_name"/>-->
+                                    </td>
+                                    <td style="border: 1px solid #000000 !important;padding:5px 0 !important;width:20% !important;">
+                                        <span style="font-size:13px;" t-field="line.price_unit"/>
+                                    </td>
+                                    <td style="border: 1px solid #000000 !important;padding:5px 0 !important;width:10% !important;">
+                                        <span style="font-size:13px;" t-field="line.quantity"/>
+                                    </td>
+                                    <td style="border: 1px solid #000000 !important;padding:5px 0 !important;width:10% !important;">
+                                        <span style="font-size:13px;" t-field="line.tax_ids.name"/>
+                                    </td>
+                                    <td style="background:white;border: 1px solid #000000 !important;padding:5px 0 !important;width:20% !important;">
+                                    <span style="font-size:13px;" t-field="line.price_subtotal"/>
+                                    </td>
+                                </tr>
+                            </t>
+                </tbody>
+           </xpath>
+
+           <xpath expr="//div[hasclass('mt32')]" position="replace">
+               <div t-if="o.type == 'magdy'" id="informations" class="row mt32 mb32">
+                        <div class="col-auto mw-100 mb-2" t-if="o.name">
+                            <strong><span style="font-size:17px;color:black;padding-right:5px;">Invoice NO</span></strong>
+                            <span style="font-size:19px;color:black;">رقم الفاتوره</span>
+                            <p class="text-center m-0" t-field="o.name"/>
+                        </div>
+                        <div class="col-auto mw-100 mb-2" t-if="o.invoice_date" >
+                            <strong><span style="font-size:17px;color:black;padding-right:5px;">Invoice Date</span></strong>
+                            <span style="font-size:19px;color:black;">تاريخ الفاتوره</span>
+                            <p class="text-center m-0" t-field="o.invoice_date"/>
+                        </div>
+                        <div class="col-auto mw-100 mb-2" t-if="o.invoice_date_due and o.type == 'out_invoice' and o.state == 'posted'" >
+                            <strong><span style="font-size:17px;color:black;padding-right:5px;">Due Date</span></strong>
+                            <span style="font-size:19px;color:black;">تاريخ الاستحقاق</span>
+                            <p class="text-center m-0" t-field="o.invoice_date_due"/>
+                        </div>
+                    </div>
+           </xpath>
+
+           <xpath expr="//div[hasclass('page')]//h2" position="before">
+               <br/>
+                    <div class="container-fluid" >
+                          <div style="width:100%;" class="row">
+                            <div class="col-auto" style="width:100%;text-align:center;line-height: 0.5 !important;">
+                                <h3 style="color:black;"><span style="padding-right:5px;">Invoice</span><span>فاتورة</span></h3>
+                            </div>
+                          </div>
+                     </div>
+
+                     <div class="container-fluid" >
+                          <div style="width:100%;" class="row">
+                            <div class="col-auto" style="width:100%;text-align:left;line-height: 0.5 !important;">
+                                <h3 t-if="o.name" style="color:black;"><span t-esc="o.name"/> </h3>
+                            </div>
+                          </div>
+                     </div>
+                     <br></br>
+                     <div class="container-fluid" style="margin-left:-12px;">
+                          <div style="width:100%;" class="row">
+                            <div class="col-auto" style="width:50%;text-align:left;">
+                              <p style="line-height: .8 !important;" t-if="o.partner_id.name"><span style="color:black;">Customer Name :</span> <span t-esc="o.partner_id.name"/></p>
+                              <p style="line-height: .8 !important;" t-if="o.partner_id.street"><span style="color:black;">Customer Address : </span><span t-esc="o.partner_id.street"/></p>
+                              <p style="line-height: .8 !important;" t-if="o.partner_id.vat"><span style="color:black;">Customer VAT No:</span><span t-esc="o.partner_id.vat"/></p>
+<!--                              <p style="line-height: auto !important;" t-if="o.landing_place.name"><span style="color:black;">Sea Port :</span><span t-esc="o.landing_place.name"/></p>-->
+                            </div>
+
+                            <div class="col-auto" style="width:50%;text-align:right;">
+                              <p class="oe_inline" style="line-height: .8 !important;" t-if="o.partner_id.name"><span style="color:black;">اسم العميل</span>:<span t-esc="o.partner_id.arabic_name"/></p>
+                              <p style="line-height: .8 !important;" t-if="o.partner_id.street2"><span style="color:black;">عنوان العميل</span>:<span t-esc="o.partner_id.street2"/></p>
+                              <p style="line-height: .8 !important;" t-if="o.partner_id.vat"><span t-esc="o.partner_id.vat"/><span style="color:black;">:الرقم الضريبي للعميل</span></p>
+<!--                              <p style="line-height: auto !important;" t-if="o.landing_place.name"><span style="color:black;">الميناء</span>:<span t-esc="o.landing_place.arabic_name"/></p>-->
+                            </div>
+                          </div>
+                      </div><br/>
+               <table style="width:100%;border:0px white;">
+                  <tr t-if="o.invoice_date">
+                    <td style="background:white;col-span:3;border:0px white;font-size:12px">
+                        <span style="color:black;">Invoice Date/تاريخ الفاتورة: </span><span style="color:white;">h</span>
+                        <sapn t-field="o.invoice_date"/>
+                    </td>
+                  </tr>
+                   <tr>
+                    <td t-if="o.get_sale_order_data()['from']" style="width:33%;border:0px white;font-size:12px">
+                        <span style="color:black;">From/من: </span><span style="color:white;">h</span>
+                        <sapn t-esc="o.get_sale_order_data()['from']"/>
+                    </td>
+<!--                    <td style="width:15%;border:0px white;font-size:12px"><sapn t-esc="o.get_sale_order_data()['from']"/></td>-->
+                    <td t-if="o.get_sale_order_data()['to']" style="width:33%;border:0px white;font-size:12px">
+                        <span style="color:black;">To/الي: </span><span style="color:white;">h</span>
+                        <span t-esc="o.get_sale_order_data()['to']"/>
+                    </td>
+<!--                    <td style="width:15%;border:0px white;font-size:12px"><span t-esc="o.get_sale_order_data()['to']"/></td>-->
+                    <td t-if="o.get_sale_order_data()['vehicle']" style="background:white;width:34%;border:0px white;font-size:12px">
+                        <span style="color:black;">Vehicle Type/نوع السياره: </span><span style="color:white;">h</span>
+                        <span t-esc="o.get_sale_order_data()['vehicle']"/>
+                    </td>
+<!--                    <td style="width:15%;border:0px white;font-size:10px"><span t-esc="o.get_sale_order_data()['vehicle']"/></td>-->
+                  </tr>
+                  <tr>
+                      <td t-if="o.get_sale_order_data()['departure']" style="border:0px white;font-size:12px">
+                          <span style="color:black;">Picking Date/تاريخ الاستلام: </span><span><span style="color:white;">h</span>
+                          </span><sapn t-esc="o.get_sale_order_data()['departure']"/>
+                      </td>
+<!--                    <td style="width:15%;border:0px white;font-size:12px"><sapn t-esc="o.get_sale_order_data()['departure']"/></td>-->
+                      <td t-if="o.get_sale_order_data()['arrival']" style="border:0px white;font-size:12px">
+                          <span style="color:black;">Delivery Date/تاريخ التوصيل: </span><span><span style="color:white;">h</span>
+                          </span><span t-esc="o.get_sale_order_data()['arrival']"/>
+                      </td>
+<!--                    <td style="width:15%;border:0px white;font-size:12px"><span t-esc="o.get_sale_order_data()['arrival']"/></td>-->
+                    <td t-if="o.get_sale_order_data()['vehicle_no']" style="background:white;border:0px white;font-size:12px">
+                        <span style="color:black;">Vehicle No./رقم السيارة: </span><span style="color:white;">h</span>
+                        <span t-esc="o.get_sale_order_data()['vehicle_no']"/>
+                    </td>
+<!--                    <td style="width:15%;border:0px white;font-size:10px"><span t-esc="o.get_sale_order_data()['vehicle_no']"/></td>-->
+                  </tr>
+                  <tr>
+                    <td t-if="o.get_sale_order_data()['policy_no']" style="border:0px white;font-size:12px">
+                        <span style="color:black;">Policy No/رقم عقد الشحن: </span><span style="color:white;">h</span>
+                        <sapn t-esc="o.get_sale_order_data()['policy_no']"/>
+                    </td>
+<!--                    <td style="width:15%;border:0px white;font-size:12px"><sapn t-esc="o.get_sale_order_data()['policy_no']"/></td>-->
+                    <td t-if="o.get_sale_order_data()['waybill']" style="border:0px white;font-size:12px">
+                        <span style="color:black;">Waybill/رقم بوليصة الشحن: </span><span style="color:white;">h</span>
+                        <span t-esc="o.get_sale_order_data()['waybill']"/>
+                    </td>
+<!--                    <td style="width:15%;border:0px white;font-size:12px"><span t-esc="o.get_sale_order_data()['waybill']"/></td>-->
+                    <td t-if="o.invoice_origin" style="background:white;border:0px white;font-size:12px">
+                        <span style="color:black;">Reference No/رقم المرجع: </span><span style="color:white;">h</span>
+                        <span t-field="o.invoice_origin"/></td>
+<!--                    <td style="width:15%;border:0px white;font-size:10px"><span t-field="o.invoice_origin"/></td>-->
+                  </tr>
+                </table><br></br>
+<!--               <div id="informations" class="row mt32 mb32">-->
+<!--                        <div class="col-auto mw-100 mb-2" t-if="o.name">-->
+<!--                            <strong><span style="font-size:17px;color:black;padding-right:5px;">from</span></strong>-->
+<!--                            <span style="font-size:19px;color:black;">من</span>-->
+<!--                            <p class="text-center m-0" t-esc="o.get_sale_order_data()['from']"/>-->
+<!--                        </div>-->
+<!--                        <div class="col-auto mw-100 mb-2" >-->
+<!--                            <strong><span style="font-size:14px;color:black;padding-right:5px;">To</span></strong>-->
+<!--                            <span style="font-size:14px;color:black;">الي</span>-->
+<!--                            <p class="text-center m-0" t-esc="o.get_sale_order_data()['to']"/>-->
+<!--                        </div>-->
+<!--                        <div >-->
+<!--                            <strong><span style="font-size:14px;color:black;padding-right:5px;">picking Date</span></strong>-->
+<!--                            <span style="font-size:14px;color:black;">تاريخ الاستلام</span>-->
+<!--                            <p class="text-center m-0" t-esc="o.get_sale_order_data()['departure']"/>-->
+<!--                        </div>-->
+<!--                        <div class="col-auto mw-100 mb-2" >-->
+<!--                            <strong><span style="font-size:14px;color:black;padding-right:5px;">Policy No</span></strong>-->
+<!--                            <span style="font-size:14px;color:black;">رقم عقدالشحن</span>-->
+<!--                            <p class="text-center m-0" t-esc="o.get_sale_order_data()['policy_no']"/>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--               <div class="container-fluid" style="margin-left:-12px;">-->
+<!--              <div style="width:100%;" class="row">-->
+<!--                <div class="col-auto" style="width:50%;text-align:left;">-->
+<!--&lt;!&ndash;                    style="line-height: normal !important;"&ndash;&gt;-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['from']">-->
+<!--&lt;!&ndash;                      <span style="color:black;">From/من: </span> <span t-esc="o.get_sale_order_data()['from']"/>&ndash;&gt;-->
+<!--                  <div >-->
+<!--                        <strong><span style="font-size:14px;color:black;padding-right:5px;">From</span></strong>-->
+<!--                        <span style="font-size:14px;color:black;">من</span>-->
+<!--                        <sapn t-esc="o.get_sale_order_data()['from']"/>-->
+<!--                    </div>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['departure']">-->
+<!--&lt;!&ndash;                      <p style="color:black;"><span t-esc="o.get_sale_order_data()['departure']"/>picking Date/تاريخ الاستلام: </p>&ndash;&gt;-->
+<!--                    <div >-->
+<!--                        <strong><span style="font-size:14px;color:black;padding-right:5px;">picking Date</span></strong>-->
+<!--                        <span style="font-size:14px;color:black;">تاريخ الاستلام</span>-->
+<!--                        <sapn t-esc="o.get_sale_order_data()['departure']"/>-->
+<!--                    </div>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['driver']">-->
+<!--                      <span style="color:black;">Driver: </span><span t-esc="o.get_sale_order_data()['driver']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['policy_no']">-->
+<!--                      <span style="color:black;">Policy No/رقم عقدالشحن: </span><span t-esc="o.get_sale_order_data()['policy_no']"/>-->
+<!--&lt;!&ndash;                        <span style="font-size:13px;">Total</span><span style="font-size:13px;">الاجمالي</span>&ndash;&gt;-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['vehicle']">-->
+<!--                      <span style="color:black;">Vehicle: </span><span t-esc="o.get_sale_order_data()['vehicle']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['vehicle_no']">-->
+<!--                      <span style="color:black;">Vehicle No: </span><span t-esc="o.get_sale_order_data()['vehicle_no']"/>-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--                <div class="col-auto" style="width:50%;text-align:left;">-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['to']">-->
+<!--                      <span style="color:black;">To: </span><span t-esc="o.get_sale_order_data()['to']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['arrival']">-->
+<!--                      <span style="color:black;">Arrival Date: </span><span t-esc="o.get_sale_order_data()['arrival']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['helper']">-->
+<!--                      <span style="color:black;">Helper: </span><span t-esc="o.get_sale_order_data()['helper']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['waybill']">-->
+<!--                      <span style="color:black;">Waybill: </span><span t-esc="o.get_sale_order_data()['waybill']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['vehicle_type']">-->
+<!--                      <span style="color:black;">Vehicle Type: </span><span t-esc="o.get_sale_order_data()['vehicle_type']"/>-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--&lt;!&ndash;                <div class="col-auto" style="width:33%;text-align:left;">&ndash;&gt;-->
+<!--&lt;!&ndash;                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['to']">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <span style="color:black;">To: </span><span t-esc="o.get_sale_order_data()['to']"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </p>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['arrival']">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <span style="color:black;">Arrival Date: </span><span t-esc="o.get_sale_order_data()['arrival']"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </p>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['helper']">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <span style="color:black;">Helper: </span><span t-esc="o.get_sale_order_data()['helper']"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </p>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['waybill']">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <span style="color:black;">Waybill: </span><span t-esc="o.get_sale_order_data()['waybill']"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </p>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['vehicle_type']">&ndash;&gt;-->
+<!--&lt;!&ndash;                      <span style="color:black;">Vehicle Type: </span><span t-esc="o.get_sale_order_data()['vehicle_type']"/>&ndash;&gt;-->
+<!--&lt;!&ndash;                  </p>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--              </div>-->
+<!--           </div><br/>-->
+
+<!--                     <br></br>-->
+
+<!--                     <div class="container-fluid" >-->
+<!--                          <div style="width:100%;" class="row">-->
+<!--                            <div t-if="o.invoice_origin" class="col-auto" style="width:35%;text-align:center;">-->
+<!--                                <span style="font-size:17px;color:black;padding-right:5px;">Reference No</span>/-->
+<!--                                <span style="font-size:19px;color:black;">المرجع</span><br></br>-->
+<!--                                <p class="text-center" t-field="o.invoice_origin"/>-->
+<!--                            </div>-->
+<!--                              <div t-if="o.bayan" class="col-auto" style="width:30%;text-align:center;">-->
+<!--                                <span style="font-size:17px;color:black;padding-right:5px;">Bayan</span>/-->
+<!--                                <span style="font-size:19px;color:black;">رقم البيان </span><br></br>-->
+<!--                                <p class="text-center" t-field="o.bayan"/>-->
+<!--                            </div>-->
+<!--                              <div t-if="o.bill_of_lading" class="col-auto" style="width:35%;text-align:center;">-->
+<!--                                <span style="font-size:17px;color:black;padding-right:5px;">Bill of Lading</span>/-->
+<!--                                <span style="font-size:19px;color:black;">بوليصة الشحن </span><br></br>-->
+<!--                                <p t-field="o.bill_of_lading"/>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                     </div>-->
+           </xpath>
+
+<!--           <xpath expr="//div[hasclass('page')]//h2" position="after">-->
+<!--            <div class="container-fluid" style="margin-left:-12px;">-->
+<!--              <div style="width:100%;" class="row">-->
+<!--                <div class="col-auto" style="width:50%;text-align:left;">-->
+<!--&lt;!&ndash;                    style="line-height: normal !important;"&ndash;&gt;-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['from']">-->
+<!--                      <span style="color:black;">From: </span> <span t-esc="o.get_sale_order_data()['from']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['departure']">-->
+<!--                      <span style="color:black;">Departure Date: </span> <span t-esc="o.get_sale_order_data()['departure']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['driver']">-->
+<!--                      <span style="color:black;">Driver: </span><span t-esc="o.get_sale_order_data()['driver']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['policy_no']">-->
+<!--                      <span style="color:black;">Policy No: </span><span t-esc="o.get_sale_order_data()['policy_no']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['vehicle']">-->
+<!--                      <span style="color:black;">Vehicle: </span><span t-esc="o.get_sale_order_data()['vehicle']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['vehicle_no']">-->
+<!--                      <span style="color:black;">Vehicle No: </span><span t-esc="o.get_sale_order_data()['vehicle_no']"/>-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--                <div class="col-auto" style="width:50%;text-align:left;">-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['to']">-->
+<!--                      <span style="color:black;">To: </span><span t-esc="o.get_sale_order_data()['to']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['arrival']">-->
+<!--                      <span style="color:black;">Arrival Date: </span><span t-esc="o.get_sale_order_data()['arrival']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['helper']">-->
+<!--                      <span style="color:black;">Helper: </span><span t-esc="o.get_sale_order_data()['helper']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['waybill']">-->
+<!--                      <span style="color:black;">Waybill: </span><span t-esc="o.get_sale_order_data()['waybill']"/>-->
+<!--                  </p>-->
+<!--                  <p style="line-height: .8 !important;" t-if="o.get_sale_order_data()['vehicle_type']">-->
+<!--                      <span style="color:black;">Vehicle Type: </span><span t-esc="o.get_sale_order_data()['vehicle_type']"/>-->
+<!--                  </p>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--           </div><br/>-->
+<!--        </xpath>-->
+
+           <xpath expr="//t[@t-set='address']//address" position="replace" />
+
+           <xpath expr="//div[@t-if='o.partner_id.vat']" position="replace" />
+
+           <xpath expr="//div[hasclass('page')]//h2" position="replace" />
+
+           <xpath expr="//div[hasclass('clearfix')]" position="replace">
+               <table class='table table-bordered' style="border-bottom: 0px solid #000000 !important;margin:0 !important;font-size:0.5em !important;text-align:center;width:60%;table-layout: auto !important;float: right;">
+                         <tbody>
+                            <tr>
+                                <td style="color:black;border: 1px solid #000000 !important;padding:5px 0 !important;width:40%;">
+                                    <span style="font-size:13px;">Total with VAT/</span>
+                                    <span style="font-size:13px;">المجموع الخاضع للضريبه</span>
+                                </td>
+                                <td style="background:white;border: 1px solid #000000 !important;padding:5px 0 !important;width:13.5%;">
+                                    <span style="font-size:13px;" t-esc="o.get_line_with_vat()['total_with_vat']" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color:black;border: 1px solid #000000 !important;padding:5px 0 !important;">
+                                    <span style="font-size:13px;">Total Zero VAT/</span>
+                                    <span style="font-size:13px;">المجموع الغير خاضع للضريبه</span>
+                                </td>
+                                <td style="background:white;border: 1px solid #000000 !important;padding:5px 0 !important;">
+                                    <span style="font-size:13px;" t-esc="o.get_line_with_vat()['total_without_vat']" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background:#eeeded;color:black;border: 1px solid #000000 !important;padding:5px 0 !important;">
+                                    <span style="font-size:13px;">Total Before VAT/</span>
+                                    <span style="font-size:13px;">الاجمالي قبل الضريبه</span>
+                                </td>
+                                <td style="border: 1px solid #000000 !important;padding:5px 0 !important;">
+                                    <span style="font-size:13px;" t-esc="o.amount_untaxed" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="color:black;border: 1px solid #000000 !important;padding:5px 0 !important;">
+                                    <span style="font-size:13px;">VAT 5%/</span>
+                                    <span style="font-size:13px;">ضريبه القيمه المضافه</span>
+                                </td>
+                                <td style="background:white;border: 1px solid #000000 !important;padding:5px 0 !important;">
+                                    <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                        <span style="font-size:13px;" t-esc="amount_by_group[3]"/>
+                                    </t>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="background:#eeeded;color:black;border: 1px solid #000000 !important;padding:5px 0 !important;">
+                                    <span style="font-size:13px;">Total invoice/</span>
+                                    <span style="font-size:13px;">اجمالي الفاتوره</span>
+                                </td>
+                                <td style="border: 1px solid #000000 !important;padding:5px 0 !important;">
+                                    <span style="font-size:13px;" t-esc="o.amount_total" t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                                </td>
+                            </tr>
+
+                         </tbody>
+                     </table>
+
+               <span t-if="o.type == 'magdy'">
+                   <div class="clearfix">
+                        <div id="total" class="row">
+                            <div t-attf-class="#{'col-12' if report_type != 'html' else 'col-sm-4 col-md-4'} ml-auto">
+                                <table style="float:right;">
+                                    <tr class="border-black " style="border: 1px solid #000000">
+                                        <td style="background:#a0a0a0;color:white;border: 1px solid #000000 !important;">
+                                                <p>
+                                                    <span style="font-size:13px;padding-right:10px;">Total with VAT</span>
+                                                    <span style="font-size:13px;">مجموع البنود الخاضعه للضريبه</span>
+                                                </p>
+                                        </td>
+                                        <td style="border: 1px solid #000000 !important;">
+                                            <span style="font-size:13px;" t-esc="o.get_line_with_vat()['total_with_vat']"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="background:#a0a0a0;color:white;border: 1px solid #000000 !important;">
+                                            <p><span style="font-size:13px;padding-right:10px;">Total Zero VAT</span><span style="font-size:13px;">مجموع البنود بدون ضريبه</span></p>
+                                        </td>
+                                        <td style="border: 1px solid #000000 !important;">
+                                            <span style="font-size:13px;" t-esc="o.get_line_with_vat()['total_without_vat']"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="background:#a0a0a0;color:white;border: 1px solid #000000 !important;">
+                                            <p><span style="font-size:13px;padding-right:10px;">Total Before VAT</span><span style="font-size:13px;">المجموع قبل الضريبه</span></p>
+                                        </td>
+                                        <td style="border: 1px solid #000000 !important;">
+                                            <span style="font-size:13px;" t-esc="o.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    <td style="background:#a0a0a0;color:white;border: 1px solid #000000 !important;">
+                                            <p><span style="font-size:13px;padding-right:10px;">VAT 5%</span><span style="font-size:13px;">مقدار الضريبه</span></p>
+                                        </td>
+                                        <td style="border: 1px solid #000000 !important;">
+                                            <t t-foreach="o.amount_by_group" t-as="amount_by_group">
+                                                <span style="font-size:13px;" t-esc="amount_by_group[3]"/>
+                                            </t>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td style="background:#a0a0a0;color:white;border: 1px solid #000000 !important;">
+                                            <p><span style="font-size:13px;padding-right:10px;">Total</span><span style="font-size:13px;">المجموع الكلي</span></p>
+                                        </td>
+                                        <td style="border: 1px solid #000000 !important;">
+                                            <span style="font-size:13px;" t-esc="o.amount_total"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+               </span>
+           </xpath>
+
+    </template>
+
+</data>
+</odoo>

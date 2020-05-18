@@ -8,6 +8,17 @@ class AccountMove(models.Model):
     _inherit = "account.move"
 
     sale_order_id = fields.Many2one('sale.order')
+    from_id = fields.Many2one("sale.location")
+    to_id = fields.Many2one("sale.location")
+    departure_time = fields.Datetime()
+    arrival_time = fields.Datetime()
+    vehicle_id = fields.Many2one("fleet.vehicle")
+    vehicle_type_id = fields.Many2one("fleet.vehicle.model")
+    vehicle_no = fields.Char()
+    policy_no = fields.Char('Policy No.')
+    Waybill = fields.Char('Waybill')
+    helper_id = fields.Many2one("hr.employee")
+    driver_id = fields.Many2one("hr.employee")
 
 
 class HrEmployee(models.Model):
@@ -111,6 +122,23 @@ class SaleOrder(models.Model):
                 })
             self.is_journal=True
 
+    def action_view_invoice(self):
+        res = super(SaleOrder, self).action_view_invoice()
+        res['context'].update({
+            'default_from_id': self.from_id.id,
+            'default_to_id': self.to_id.id,
+            'default_departure_time': self.departure_time,
+            'default_arrival_time': self.arrival_time,
+            'default_vehicle_id': self.vehicle_id.id,
+            'default_vehicle_type_id': self.vehicle_type_id.id,
+            'default_vehicle_no': self.vehicle_no,
+            'default_policy_no': self.policy_no,
+            'default_Waybill': self.Waybill,
+            'default_helper_id': self.helper_id.id,
+            'default_driver_id': self.driver_id.id,
+        })
+        return res
+
 
 class TransportationCostLine(models.Model):
     _name = "transportation.cost.line"
@@ -131,3 +159,28 @@ class SaleLocation(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char()
+
+
+class SaleAdvancePaymentInv(models.TransientModel):
+    _inherit = "sale.advance.payment.inv"
+
+    def create_invoices(self):
+        invoice = super(SaleAdvancePaymentInv, self).create_invoices()
+        sale_orders = self.env['sale.order'].browse(self._context.get('active_ids', []))
+        if len(sale_orders) == 1:
+            account_move = self.env['account.move'].search([('invoice_origin', '=', sale_orders.name)])
+            if account_move:
+                account_move.update({
+                    'from_id': sale_orders.from_id.id,
+                    'to_id': sale_orders.to_id.id,
+                    'departure_time': sale_orders.departure_time,
+                    'arrival_time': sale_orders.arrival_time,
+                    'vehicle_id': sale_orders.vehicle_id.id,
+                    'vehicle_type_id': sale_orders.vehicle_type_id.id,
+                    'vehicle_no': sale_orders.vehicle_no,
+                    'policy_no': sale_orders.policy_no,
+                    'Waybill': sale_orders.Waybill,
+                    'helper_id': sale_orders.helper_id.id,
+                    'driver_id': sale_orders.driver_id.id,
+                })
+        return invoice

@@ -94,6 +94,24 @@
                     <xpath expr="//field[@name='ref']" position="after">
                         <field name="sale_order_id" invisible="1"/>
                     </xpath>
+                <xpath expr="//group" position="inside">
+                    <group>
+                        <field name="from_id" />
+                        <field name="departure_time" />
+                        <field name="vehicle_id" />
+                        <field name="vehicle_type_id" />
+                        <field name="vehicle_no" />
+                    </group>
+
+                    <group>
+                        <field name="to_id" />
+                        <field name="arrival_time" />
+                        <field name="helper_id" domain="[('is_driver','=',True)]"/>
+                        <field name="driver_id" domain="[('is_driver','=',True)]"/>
+                        <field name="policy_no" />
+                        <field name="Waybill" />
+                    </group>
+                </xpath>
             </field>
         </record>
 
